@@ -1,0 +1,18 @@
+.btn__submit {
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 22px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  color: $white;
+  background: $red;
+  font-family: $default-font, sans-serif;
+  padding: 16px 44px;
+  transition: all .3s ease;
+  appearance: none;
+  cursor: pointer;
+  &:hover {
+    background: $red-2;
+  }
+}

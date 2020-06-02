@@ -1,63 +1,99 @@
 <template>
   <div class="form__wrapper">
     <form id="form" class="form" @submit="checkForm" action="#" method="post">
-      <p>
-        <label for="name">Имя</label>
-        <input
-          ref="textRef"
-          id="name"
-          v-model="name"
-          type="text"
-          name="name"
-          required
-          @blur="checkText"
-        />
-      </p>
+      <div class="form__row--column">
+        <div class="form__row">
+          <label for="name" class="text--md">Your company name</label>
+          <div class="input__wrapper">
+            <input
+              ref="textRef"
+              id="name"
+              class="input"
+              v-model="name"
+              type="text"
+              name="name"
+              required
+              @blur="checkText"
+              placeholder="Type text"
+            />
+          </div>
+        </div>
 
-      <p :class="{'error': ageIsValid}">
-        <label for="age">Возраст</label>
-        <input id="age" v-model="age" type="number" name="age" @blur="checkAge" required />
-        <span v-if="ageIsValid">Поле заполено неверно</span>
-      </p>
+        <div class="form__row form__row--numbers" :class="{'error': ageIsValid}">
+          <label for="age" class="text--md">
+            Number of people
+            <span class="star">*</span>
+          </label>
+          <div class="input__wrapper">
+            <input
+              id="age"
+              class="input"
+              v-model="age"
+              type="number"
+              placeholder="1-99"
+              name="age"
+              min="1"
+              max="99"
+              @blur="checkAge"
+              required
+            />
+          </div>
+          <span class="error__message" v-if="ageIsValid">This field in required</span>
+        </div>
+      </div>
 
-      <p>
-        <label for="area">Имя</label>
-        <input id="area" v-model="area" type="text" name="area" @blur="checkText" required />
-      </p>
+      <div class="form__row">
+        <label for="area" class="text--md">
+          Business area
+          <span class="star">*</span>
+        </label>
+        <div class="input__wrapper">
+          <input
+            id="area"
+            class="input"
+            v-model="area"
+            placeholder="Design, Marketing, Development, etc."
+            type="text"
+            name="area"
+            @blur="checkText"
+            required
+          />
+        </div>
+      </div>
 
-      <p>
-        <label for="textarea">Текст</label>
-        <textarea
-          name="textarea"
-          v-model="textarea"
-          id="textarea"
-          cols="30"
-          rows="10"
-          @blur="checkText"
-        ></textarea>
-      </p>
+      <div class="form__row">
+        <label for="textarea" class="text--md">
+          Description
+          <span class="star">*</span>
+        </label>
+        <div class="input__wrapper input__wrapper--area">
+          <textarea
+            name="textarea"
+            class="input input__area"
+            placeholder="Type text"
+            v-model="textarea"
+            id="textarea"
+            cols="30"
+            rows="10"
+            @blur="checkText"
+          ></textarea>
+        </div>
+      </div>
 
-      <p>
-        <input
-          type="file"
-          id="files"
-          name="files"
-          multiple
-          accept="image/*, image/jpeg"
-          @change="countingLoadFiles"
-          ref="files"
-        />
-        <span>You are loading {{amountLoadFiles}}</span>
-      </p>
+      <div class="form__row form__row--right">
+        <inputFile />
+      </div>
 
-      <p>
-        <input type="submit" value="Отправить" />
-      </p>
+      <div class="btn__wrapper">
+        <input type="submit" class="btn btn__submit" value="Submit" />
+      </div>
     </form>
   </div>
 </template>
 
 <script>
+import inputFile from "@/components/components/inputFile.vue";
+
 export default {
   data: function() {
     return {
@@ -66,8 +102,11 @@ export default {
       ageIsValid: false,
       area: null,
       textarea: null,
-      amountLoadFiles: 0
+      errors: ["This field in required", "Please enter number from 1 to 99"]
     };
+  },
+  components: {
+    inputFile
   },
   methods: {
     checkAge() {
@@ -79,9 +118,6 @@ export default {
       return e.target.value
         ? e.target.parentNode.classList.remove("error")
         : e.target.parentNode.classList.add("error");
-    },
-    countingLoadFiles() {
-      this.amountLoadFiles = this.$refs.files.files.length;
     },
     checkForm() {}
   }

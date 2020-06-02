@@ -16,7 +16,7 @@ body {
   min-width: 320px;
   position: relative;
   line-height: 1.65;
-  font-family: "Roboto", sans-serif;
+  font-family: $default-font, sans-serif;
   overflow-x: hidden;
   margin: 0;
 }
@@ -50,4 +50,9 @@ a {
   -webkit-transition: 0.2s color ease-in;
   transition: 0.2s color ease-in;
   text-decoration: none;
+}
+
+input,
+textarea {
+  appearance: none;
 }

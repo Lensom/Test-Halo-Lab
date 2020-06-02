@@ -1,6 +1,6 @@
 <template>
   <div class="home-page">
-    Home page
+    <h1 class="title title--lg">Your first project</h1>
     <Stages />
     <Form />
   </div>

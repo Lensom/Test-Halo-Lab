@@ -4,7 +4,30 @@
   max-width: 608px;
   width: 100%;
   margin: 0 auto;
+  padding: 55px 56px 58px;
   &__wrapper {
     margin: 15px;
+  }
+  &__row {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 40px;
+    &--right {
+      align-items: flex-end;
+      height: 48px;
+      justify-content: center;
+      margin-top: -6px;
+    }
+    &--column {
+      display: flex;
+      justify-content: space-between;
+    }
+    &--numbers {
+      max-width: 178px;
+      width: 100%;
+      margin-left: 38px;
+    }
   }
 }
