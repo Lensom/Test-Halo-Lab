@@ -21,15 +21,15 @@
   }
 
   .input {
-    padding: 10px 12px;
-    font-size: 14px;
-    &__area {
-      padding: 15px 12px;
-    }
-    &__wrapper {
+    &__field {
+      padding: 10px 12px;
+      font-size: 14px;
       &--area {
-        margin-top: 9px;
+        padding: 15px 12px;
       }
+    }
+    &__textarea {
+       margin-top: 9px;
     }
   }
 
@@ -73,11 +73,23 @@
   }
 
   .input {
-    &__area {
-      min-height: 120px;
-      height: 120px;
+    margin-top: 0;
+    &__field {
+      &--area {
+        min-height: 120px;
+        height: 120px;
+      }
     }
-    &__upload {
+    &__textarea {
+      margin-bottom: 10px;
+      .error__message {
+        bottom: 0;
+      }
+    }
+  }
+
+  .upload {
+    &__input {
       padding: 10px 0;
       justify-content: center;
       align-items: flex-start;
@@ -88,15 +100,6 @@
     }
     &__info {
       margin: 0 0 10px 0;
-    }
-    &__wrapper {
-      margin-top: 0;
-      &--area {
-        margin-bottom: 10px;
-        .error__message {
-          bottom: 0;
-        }
-      }
     }
   }
 

@@ -1,6 +1,6 @@
 <template>
-  <div class="input__upload--wrapper">
-    <label for="files" class="input__upload">
+  <div class="upload">
+    <label for="files" class="upload__input">
       <svg
         width="24"
         height="21"
@@ -26,7 +26,7 @@
         ref="files"
       />
     </label>
-    <p class="input__info">{{amountLoadFiles}} files attached</p>
+    <p class="upload__info">{{amountLoadFiles}} files attached</p>
   </div>
 </template>
 
@@ -34,23 +34,22 @@
 export default {
   data() {
     return {
-      amountLoadFiles: 0,
+      amountLoadFiles: 0
     };
   },
   methods: {
-    sendFilesData () {
+    sendFilesData() {
       let files = this.$refs.files.files;
       let nameOfFiles = [];
       this.amountLoadFiles = this.$refs.files.files.length;
-
 
       for (let i of files) {
         nameOfFiles.push(i.name);
       }
 
-      this.$emit('files', {
+      this.$emit("files", {
         nameOfFiles
-      })
+      });
     }
   }
 };

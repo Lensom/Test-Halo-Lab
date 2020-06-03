@@ -1,92 +1,95 @@
 <template>
-  <div class="form__wrapper">
-    <form id="form" class="form" @submit.prevent="checkForm" action="#" method="post">
-      <div class="form__row--column">
-        <div class="form__row">
-          <label for="name" class="text--md">Your company name</label>
-          <div class="input__wrapper">
-            <input
-              ref="textRef"
-              id="name"
-              class="input"
-              v-model="userData.name"
-              type="text"
-              name="name"
-              placeholder="Type text"
-            />
-          </div>
-        </div>
-
-        <div class="form__row form__row--numbers">
-          <label for="age" class="text--md">
-            Number of people
-            <span class="star">*</span>
-          </label>
-          <div class="input__wrapper">
-            <input
-              id="age"
-              class="input req"
-              v-model="userData.numberOfPeople"
-              type="number"
-              placeholder="1-99"
-              name="age"
-              min="1"
-              max="99"
-              @blur="checkNumber"
-            />
-            <span class="error__message">{{numberIsValid}}</span>
-          </div>
-        </div>
-      </div>
-
+  <form id="form" class="form" @submit.prevent="checkForm" action="#" method="post">
+    <div class="form__row--column">
       <div class="form__row">
-        <label for="area" class="text--md">
-          Business area
-          <span class="star">*</span>
-        </label>
-        <div class="input__wrapper">
+        <label for="name" class="text--md">Your company name</label>
+        <div class="input">
           <input
-            id="area"
-            class="input req"
-            v-model="userData.area"
-            placeholder="Design, Marketing, Development, etc."
+            id="name"
+            class="input__field"
+            v-model="inputUserName.value"
             type="text"
-            name="area"
-            @blur="checkText"
+            name="name"
+            :placeholder="inputUserName.placeholder"
           />
-          <span class="error__message">{{errors.required}}</span>
         </div>
       </div>
 
-      <div class="form__row">
-        <label for="textarea" class="text--md">
-          Description
+      <div class="form__row form__row--numbers">
+        <label for="age" class="text--md">
+          Number of people
           <span class="star">*</span>
         </label>
-        <div class="input__wrapper input__wrapper--area">
-          <textarea
-            name="textarea"
-            class="input input__area req"
-            placeholder="Type text"
-            v-model="userData.description"
-            id="textarea"
-            cols="30"
-            rows="10"
-            @blur="checkText"
-          ></textarea>
-          <span class="error__message">{{errors.required}}</span>
+        <div
+          class="input"
+          :class="{error:  inputNumberOfPeople.isValid!==null && !inputNumberOfPeople.isValid}"
+        >
+          <input
+            id="age"
+            class="input__field req"
+            v-model.number="inputNumberOfPeople.value"
+            type="number"
+            :placeholder="inputNumberOfPeople.placeholder"
+            name="age"
+            min="1"
+            max="99"
+            @blur="checkNumber"
+          />
+          <span class="error__message">{{numberIsValid}}</span>
         </div>
       </div>
+    </div>
 
-      <div class="form__row form__row--right">
-        <inputFile @files="getFilesData" />
+    <div class="form__row">
+      <label for="area" class="text--md">
+        Business area
+        <span class="star">*</span>
+      </label>
+      <div class="input" :class="{error:  inputArea.isValid!==null && !inputArea.isValid} ">
+        <input
+          id="area"
+          class="input__field req"
+          v-model="inputArea.value"
+          :placeholder="inputArea.placeholder"
+          type="text"
+          name="area"
+          @blur="checkText($event, inputArea)"
+        />
+        <span class="error__message">{{inputArea.errorText}}</span>
       </div>
+    </div>
 
-      <div class="btn__wrapper">
-        <input type="submit" class="btn btn__submit" value="Submit" />
+    <div class="form__row">
+      <label for="textarea" class="text--md">
+        Description
+        <span class="star">*</span>
+      </label>
+      <div
+        class="input input__textarea"
+        :class="{error:  inputDescription.isValid!==null && !inputDescription.isValid} "
+      >
+        <textarea
+          name="textarea"
+          class="input__field input__field--area req"
+          :placeholder="inputDescription.placeholder"
+          v-model="inputDescription.value"
+          id="textarea"
+          cols="30"
+          rows="10"
+          @blur="checkText($event, inputDescription)"
+        ></textarea>
+        <span class="error__message">{{inputDescription.errorText}}</span>
       </div>
-    </form>
-  </div>
+    </div>
+
+    <div class="form__row form__row--right">
+      <inputFile @files="getFilesData" />
+    </div>
+
+    <div class="btn__wrapper">
+      <input type="submit" class="btn btn__submit" value="Submit" />
+    </div>
+  </form>
 </template>
 
 <script>
@@ -97,17 +100,35 @@ export default {
     return {
       numberIsValid: "This field in required",
       formValid: false,
-      errors: {
-        required: "This field in required",
-        number: "Please enter number from 1 to 99",
-        clear: ""
+      files: 0,
+      inputUserName: {
+        required: false,
+        errorText: "This field in required",
+        placeholder: "Type text",
+        value: "",
+        isValid: true
       },
-      userData: {
-        name: null,
-        numberOfPeople: null,
-        area: null,
-        description: null,
-        files: []
+      inputNumberOfPeople: {
+        required: true,
+        errorText: "This field in required",
+        errorText2: "Please enter number from 1 to 99",
+        placeholder: "1-99",
+        value: "",
+        isValid: null
+      },
+      inputArea: {
+        required: true,
+        errorText: "This field in required",
+        placeholder: "Design, Marketing, Development, etc.",
+        value: "",
+        isValid: null
+      },
+      inputDescription: {
+        required: true,
+        errorText: "This field in required",
+        placeholder: "Type text",
+        value: "",
+        isValid: null
       }
     };
   },
@@ -115,57 +136,51 @@ export default {
     inputFile
   },
   methods: {
-    enableError(e, state = false) {
-      return state
-        ? e.target.parentNode.classList.remove("error")
-        : e.target.parentNode.classList.add("error");
-    },
-    checkNumber(e) {
-      let num = this.userData.numberOfPeople;
+    checkNumber() {
+      let num = this.inputNumberOfPeople.value;
 
-      if (num == null || num == "") {
-        this.enableError(e);
-        this.numberIsValid = this.errors.required;
+      if (num == "" || num == null) {
+        this.numberIsValid = this.inputNumberOfPeople.errorText;
+        this.inputNumberOfPeople.isValid = false;
       } else if (num < 1 || num > 99) {
-        this.enableError(e);
-        this.numberIsValid = this.errors.number;
+        this.numberIsValid = this.inputNumberOfPeople.errorText2;
+        this.inputNumberOfPeople.isValid = false;
       } else {
-        this.enableError(e, true);
-        this.numberIsValid = this.errors.clear;
+        this.inputNumberOfPeople.isValid = true;
       }
-
-      //    return (num == null || num == '')
-      //   ? this.numberIsValid = this.errors.required
-      //   : num < 1 || num > 99
-      //   ? this.numberIsValid = this.errors.number
-      //   : this.numberIsValid = this.errors.clear;
     },
-    checkText(e) {
-      return e.target.value
-        ? e.target.parentNode.classList.remove("error")
-        : e.target.parentNode.classList.add("error");
+    checkText(e, obj) {
+      return obj.value ? (obj.isValid = true) : (obj.isValid = false);
     },
     getFilesData(data) {
-      this.userData.files = data.nameOfFiles;
+      this.files = data.nameOfFiles;
     },
     checkForm() {
-      let req = document.querySelectorAll(".req");
-      let reqValue = [];
+      let inputs = [
+        this.inputUserName,
+        this.inputNumberOfPeople,
+        this.inputArea,
+        this.inputDescription
+      ];
 
-      for (let i of req) {
-        if (!i.value) i.parentNode.classList.add("error");
-        reqValue.push(i.value);
+      let inputsValue = [];
+
+      for (let i of inputs) {
+        if (!i.isValid) {
+          i.isValid = false;
+        }
+        inputsValue.push(i.isValid);
       }
 
-      this.formValid = reqValue.every(i => i != false);
+      this.formValid = inputsValue.every(i => i === true);
 
       if (this.formValid) {
         console.group("Customer message");
-        console.log(`Company name: ${this.userData.name}`);
-        console.log(`Number of people: ${this.userData.numberOfPeople}`);
-        console.log(`Business area: ${this.userData.area}`);
-        console.log(`Description: ${this.userData.description}`);
-        console.dir(`Files: ${this.userData.files}`);
+        console.log(`Company name: ${this.inputUserName.value}`);
+        console.log(`Number of people: ${this.inputNumberOfPeople.value}`);
+        console.log(`Business area: ${this.inputArea.value}`);
+        console.log(`Description: ${this.inputDescription.value}`);
+        console.dir(`Files: ${this.files}`);
         console.groupEnd();
       }
     }
