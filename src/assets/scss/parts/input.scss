@@ -49,6 +49,9 @@
     margin-top: 9px;
     &--area {
       margin-top: 0px;
+      .error__message {
+        bottom: -17px;
+      }
     }
   }
   &__file {

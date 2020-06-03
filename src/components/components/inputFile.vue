@@ -21,8 +21,8 @@
         id="files"
         name="files"
         multiple
-        accept="image/*, image/jpeg"
-        @change="countingLoadFiles"
+        accept="file"
+        @change="sendFilesData"
         ref="files"
       />
     </label>
@@ -34,12 +34,23 @@
 export default {
   data() {
     return {
-      amountLoadFiles: 0
+      amountLoadFiles: 0,
     };
   },
   methods: {
-    countingLoadFiles() {
+    sendFilesData () {
+      let files = this.$refs.files.files;
+      let nameOfFiles = [];
       this.amountLoadFiles = this.$refs.files.files.length;
+
+
+      for (let i of files) {
+        nameOfFiles.push(i.name);
+      }
+
+      this.$emit('files', {
+        nameOfFiles
+      })
     }
   }
 };

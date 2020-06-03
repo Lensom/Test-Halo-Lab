@@ -33,8 +33,12 @@
   span {
     color: $red-2;
   }
+  .error__message {
+    display: block;
+  }
   &__message {
-    font-size: 12px;
+    display: none;
+    font-size: 11px;
     position: absolute;
     bottom: -24px;
     color: $red-2;

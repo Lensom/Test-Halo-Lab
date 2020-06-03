@@ -56,7 +56,7 @@
   .form {
     padding: 20px 15px;
     &__row {
-      margin-bottom: 15px;
+      margin-bottom: 22px;
       &--column {
         flex-direction: column;
       }
@@ -89,5 +89,18 @@
     &__info {
       margin: 0 0 10px 0;
     }
+    &__wrapper {
+      margin-top: 0;
+      &--area {
+        margin-bottom: 10px;
+        .error__message {
+          bottom: 0;
+        }
+      }
+    }
+  }
+
+  .error__message {
+    bottom: -18px;
   }
 }
