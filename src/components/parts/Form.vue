@@ -33,9 +33,8 @@
               min="1"
               max="99"
               @blur="checkNumber"
-              
             />
-          <span class="error__message">{{numberIsValid}}</span>
+            <span class="error__message">{{numberIsValid}}</span>
           </div>
         </div>
       </div>
@@ -54,11 +53,9 @@
             type="text"
             name="area"
             @blur="checkText"
-            
           />
           <span class="error__message">{{errors.required}}</span>
         </div>
-        
       </div>
 
       <div class="form__row">
@@ -76,14 +73,13 @@
             cols="30"
             rows="10"
             @blur="checkText"
-            
           ></textarea>
-        <span class="error__message">{{errors.required}}</span>
+          <span class="error__message">{{errors.required}}</span>
         </div>
       </div>
 
       <div class="form__row form__row--right">
-        <inputFile  @files="getFilesData"/>
+        <inputFile @files="getFilesData" />
       </div>
 
       <div class="btn__wrapper">
@@ -99,12 +95,12 @@ import inputFile from "@/components/components/inputFile.vue";
 export default {
   data: function() {
     return {
-      numberIsValid: 'This field in required',
+      numberIsValid: "This field in required",
       formValid: false,
       errors: {
-        required: 'This field in required',
-        number: 'Please enter number from 1 to 99',
-        clear: ''
+        required: "This field in required",
+        number: "Please enter number from 1 to 99",
+        clear: ""
       },
       userData: {
         name: null,
@@ -120,17 +116,19 @@ export default {
   },
   methods: {
     enableError(e, state = false) {
-      return state ? e.target.parentNode.classList.remove('error') : e.target.parentNode.classList.add('error')
+      return state
+        ? e.target.parentNode.classList.remove("error")
+        : e.target.parentNode.classList.add("error");
     },
     checkNumber(e) {
       let num = this.userData.numberOfPeople;
 
-      if (num == null || num == '') {
+      if (num == null || num == "") {
         this.enableError(e);
-        this.numberIsValid = this.errors.required
+        this.numberIsValid = this.errors.required;
       } else if (num < 1 || num > 99) {
         this.enableError(e);
-        this.numberIsValid = this.errors.number
+        this.numberIsValid = this.errors.number;
       } else {
         this.enableError(e, true);
         this.numberIsValid = this.errors.clear;
@@ -138,7 +136,7 @@ export default {
 
       //    return (num == null || num == '')
       //   ? this.numberIsValid = this.errors.required
-      //   : num < 1 || num > 99 
+      //   : num < 1 || num > 99
       //   ? this.numberIsValid = this.errors.number
       //   : this.numberIsValid = this.errors.clear;
     },
@@ -148,23 +146,27 @@ export default {
         : e.target.parentNode.classList.add("error");
     },
     getFilesData(data) {
-      this.userData.files = data.nameOfFiles
+      this.userData.files = data.nameOfFiles;
     },
     checkForm() {
       let req = document.querySelectorAll(".req");
-      
+      let reqValue = [];
+
       for (let i of req) {
-        if (!i.value) i.parentNode.classList.add('error')
+        if (!i.value) i.parentNode.classList.add("error");
+        reqValue.push(i.value);
       }
 
+      this.formValid = reqValue.every(i => i != false);
+
       if (this.formValid) {
-        console.group ( 'Customer message' );
-        console.log(`Company name: ${this.userData.name}`)
-        console.log(`Number of people: ${this.userData.numberOfPeople}`)
-        console.log(`Business area: ${this.userData.area}`)
-        console.log(`Description: ${this.userData.description}`)
-        console.dir(`Files: ${this.userData.files}`)
-        console.groupEnd()
+        console.group("Customer message");
+        console.log(`Company name: ${this.userData.name}`);
+        console.log(`Number of people: ${this.userData.numberOfPeople}`);
+        console.log(`Business area: ${this.userData.area}`);
+        console.log(`Description: ${this.userData.description}`);
+        console.dir(`Files: ${this.userData.files}`);
+        console.groupEnd();
       }
     }
   }
